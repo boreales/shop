@@ -25,12 +25,23 @@ $nbOrders = count($orders);
                     <th>#</th>
                     <th>Total</th>
                     <th>Date</th>
+                    <th>Products</th>
             </thead>
             <tbody>
             <tr>
                 <td scope="col">n°<?= $order['id'] ?></td>
                 <td scope="col"><?= $order['total'] ?>€</td>
                 <td scope="col"><?= $order['createdAt'] ?></td>
+                <td>
+                    <?php
+                    $products = $pdo->query("SELECT * FROM products INNER JOIN order_product ON products.id = order_product.id_product WHERE order_product.id_order = $order[id]")->fetchAll();
+                    ?>
+                    <ul>
+                        <?php foreach ($products as $product) : ?>
+                            <li><?= $product['nom'] ?> - <?= $product['prix'] ?>€</li>
+                        <?php endforeach; ?>
+                    </ul>
+                </td>
             </tr>
             </tbody>
         </table>
